@@ -1,0 +1,455 @@
+/* ============================================
+   GISELLA FARININI - ANIMATION STYLES
+   ============================================ */
+
+/* ----------------------------------------
+   1. PROGRESSIVE IMAGE LOADING (Blur-Up)
+   ---------------------------------------- */
+
+/* Image container for blur-up effect */
+.artwork-image {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--color-black-light);
+}
+
+/* Placeholder state - blurred low-res or color placeholder */
+.artwork-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, filter 0.6s ease, opacity 0.6s ease;
+}
+
+/* Initial blur state for progressive loading */
+.artwork-image img[data-loading="true"],
+.artwork-image img.blur-loading {
+  filter: blur(12px);
+  opacity: 0.8;
+  transform: scale(1.02);
+}
+
+/* Fully loaded state - sharp and clear */
+.artwork-image img[data-loaded="true"],
+.artwork-image img.blur-loaded {
+  filter: blur(0);
+  opacity: 1;
+  transform: scale(1);
+  transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s ease;
+}
+
+/* Hover effect remains */
+.artwork-card:hover .artwork-image img {
+  transform: scale(1.05);
+}
+
+/* Loading placeholder background animation */
+.artwork-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--color-black-light) 0%,
+    rgba(201, 169, 97, 0.05) 50%,
+    var(--color-black-light) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-loading 1.5s ease-in-out infinite;
+  z-index: 0;
+}
+
+.artwork-image img {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes shimmer-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Stop shimmer when image is loaded */
+.artwork-image:has(img[data-loaded="true"])::before,
+.artwork-image:has(img.blur-loaded)::before {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ----------------------------------------
+   2. SCROLL-TRIGGERED REVEAL
+   ---------------------------------------- */
+
+/* Base state - hidden */
+.gallery-item,
+.about-image,
+.philosophy-item,
+.contact-method,
+.coefficient-badge {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Visible state */
+.gallery-item.revealed,
+.about-image.revealed,
+.philosophy-item.revealed,
+.contact-method.revealed,
+.coefficient-badge.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for gallery items */
+.gallery-item:nth-child(1) { transition-delay: 0ms; }
+.gallery-item:nth-child(2) { transition-delay: 50ms; }
+.gallery-item:nth-child(3) { transition-delay: 100ms; }
+.gallery-item:nth-child(4) { transition-delay: 150ms; }
+.gallery-item:nth-child(5) { transition-delay: 200ms; }
+.gallery-item:nth-child(6) { transition-delay: 250ms; }
+.gallery-item:nth-child(7) { transition-delay: 300ms; }
+.gallery-item:nth-child(8) { transition-delay: 350ms; }
+.gallery-item:nth-child(9) { transition-delay: 400ms; }
+.gallery-item:nth-child(10) { transition-delay: 450ms; }
+.gallery-item:nth-child(11) { transition-delay: 500ms; }
+.gallery-item:nth-child(12) { transition-delay: 550ms; }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item,
+  .about-image,
+  .philosophy-item,
+  .contact-method,
+  .coefficient-badge {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  
+  .artwork-image img {
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+/* ----------------------------------------
+   3. ENHANCED LIGHTBOX ANIMATIONS
+   ---------------------------------------- */
+
+/* Lightbox backdrop with blur effect */
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lightbox.active .lightbox-backdrop {
+  opacity: 1;
+}
+
+/* Lightbox open/close animation */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Lightbox content zoom animation */
+.lightbox-content {
+  position: relative;
+  z-index: 5;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox.active .lightbox-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Lightbox image container with smooth transitions */
+.lightbox-image-container {
+  max-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.lightbox-image-container img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Slide animations for navigation */
+.lightbox-image-container.slide-out-left {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.lightbox-image-container.slide-out-right {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+.lightbox-image-container.slide-in-left {
+  animation: slideInLeft 0.3s ease forwards;
+}
+
+.lightbox-image-container.slide-in-right {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Lightbox close button animation */
+.lightbox-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: none;
+  border: none;
+  color: var(--color-white);
+  font-size: 3rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease, transform 0.3s ease;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.lightbox.active .lightbox-close {
+  opacity: 1;
+  transform: translateY(0);
+  transition: color 0.3s ease, transform 0.3s ease, opacity 0.4s ease 0.1s;
+}
+
+.lightbox-close:hover {
+  color: var(--color-gold);
+  transform: rotate(90deg);
+}
+
+/* Navigation buttons with smooth appearance */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) scale(0.8);
+  background: rgba(201, 169, 97, 0.2);
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.lightbox.active .lightbox-nav {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+  transition: all 0.3s ease, opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+}
+
+.lightbox-nav:hover {
+  background: var(--color-gold);
+  color: var(--color-black);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-prev {
+  left: 2rem;
+}
+
+.lightbox-next {
+  right: 2rem;
+}
+
+/* Lightbox info panel animation */
+.lightbox-info {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--color-white);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+}
+
+.lightbox.active .lightbox-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lightbox-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-gold);
+}
+
+/* ----------------------------------------
+   4. HERO IMAGE ANIMATIONS
+   ---------------------------------------- */
+
+/* Hero image blur-up effect */
+.artwork-preview img {
+  transition: transform 0.5s ease, filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+}
+
+.artwork-preview img[data-loading="true"] {
+  filter: blur(15px);
+  opacity: 0.7;
+}
+
+.artwork-preview img[data-loaded="true"] {
+  filter: blur(0);
+  opacity: 1;
+}
+
+/* ----------------------------------------
+   5. ADDITIONAL MICRO-ANIMATIONS
+   ---------------------------------------- */
+
+/* Coefficient badge entrance */
+.coefficient-badge {
+  will-change: transform, opacity;
+}
+
+/* View button subtle animation */
+.view-btn {
+  transition: all 0.4s ease;
+}
+
+.artwork-card:hover .view-btn {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+}
+
+/* Period title subtle animation */
+.period-title {
+  position: relative;
+  overflow: hidden;
+}
+
+.period-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: width 0.6s ease;
+}
+
+.period-title.revealed::after {
+  width: 100%;
+}
+
+/* About image entrance */
+.about-image {
+  will-change: transform, opacity;
+}
+
+/* Contact form focus animations */
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 2px rgba(201, 169, 97, 0.3);
+}
+
+/* Submit button pulse on hover */
+.submit-btn:hover {
+  animation: btn-pulse 1s ease-in-out infinite;
+}
+
+@keyframes btn-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 97, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(201, 169, 97, 0); }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .lightbox-close {
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+  }
+  
+  .lightbox-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  
+  .lightbox-prev {
+    left: 0.5rem;
+  }
+  
+  .lightbox-next {
+    right: 0.5rem;
+  }
+  
+  /* Simpler animations on mobile */
+  .gallery-item,
+  .about-image,
+  .philosophy-item,
+  .contact-method {
+    transform: translateY(20px);
+  }
+}

@@ -1,0 +1,2600 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gisella Farinini - Pittrice | Portfolio Artistico">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Gisella Farinini | Pittrice</title>
+    
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           CSS CUSTOM PROPERTIES - DESIGN SYSTEM
+           ======================================== */
+        :root {
+            /* Colors */
+            --color-black: #0a0a0a;
+            --color-black-light: #141414;
+            --color-black-lighter: #1a1a1a;
+            --color-gold: #c9a961;
+            --color-gold-light: #dccba3;
+            --color-gold-dark: #a68b4b;
+            --color-white: #f5f5f5;
+            --color-gray: #888888;
+            --color-gray-dark: #555555;
+            
+            /* Typography */
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* Spacing */
+            --section-padding: 120px;
+            --container-max: 1600px;
+            
+            /* Transitions */
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-dramatic: cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* Z-index layers */
+            --z-cursor: 9999;
+            --z-nav: 1000;
+            --z-lightbox: 2000;
+            --z-progress: 900;
+        }
+        
+        /* ========================================
+           RESET & BASE STYLES
+           ======================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-black);
+            color: var(--color-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        /* Custom Selection */
+        ::selection {
+            background: var(--color-gold);
+            color: var(--color-black);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--color-black);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-gold-dark);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-gold);
+        }
+        
+        /* ========================================
+           CUSTOM CURSOR
+           ======================================== */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--color-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: var(--z-cursor);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s var(--transition-smooth), 
+                        height 0.3s var(--transition-smooth),
+                        background 0.3s var(--transition-smooth),
+                        border-color 0.3s var(--transition-smooth);
+            mix-blend-mode: difference;
+        }
+        
+        .cursor.hover {
+            width: 60px;
+            height: 60px;
+            background: rgba(201, 169, 97, 0.1);
+            border-color: var(--color-gold-light);
+        }
+        
+        .cursor.view {
+            width: 80px;
+            height: 80px;
+            background: var(--color-gold);
+            border-color: var(--color-gold);
+            mix-blend-mode: normal;
+        }
+        
+        .cursor.view::after {
+            content: 'VIEW';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--color-black);
+            font-weight: 500;
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: var(--z-cursor);
+            transform: translate(-50%, -50%);
+        }
+        
+        @media (pointer: coarse) {
+            .cursor, .cursor-dot {
+                display: none;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+        
+        /* ========================================
+           SCROLL PROGRESS INDICATOR
+           ======================================== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: var(--z-progress);
+        }
+        
+        /* ========================================
+           UTILITY CLASSES
+           ======================================== */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+        
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+        
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+        
+        /* Text reveal animation */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--transition-dramatic), 
+                        transform 0.8s var(--transition-dramatic);
+        }
+        
+        .reveal-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Magnetic button effect */
+        .magnetic {
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* ========================================
+           NAVIGATION
+           ======================================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: var(--z-nav);
+            padding: 1.5rem 0;
+            transition: all 0.5s var(--transition-smooth);
+            border-bottom: 1px solid transparent;
+        }
+        
+        .nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+            padding: 1rem 0;
+        }
+        
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 4rem;
+        }
+        
+        .nav-logo {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            transition: transform 0.3s var(--transition-smooth);
+        }
+        
+        .nav-logo:hover {
+            transform: scale(1.02);
+        }
+        
+        .nav-logo-main {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-white);
+            line-height: 1;
+            letter-spacing: 0.05em;
+        }
+        
+        .nav-logo-sub {
+            font-family: var(--font-serif);
+            font-size: 0.875rem;
+            color: var(--color-gold);
+            font-style: italic;
+            letter-spacing: 0.1em;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+        
+        .nav-links a {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-gray);
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s var(--transition-smooth);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--color-gold);
+            transition: width 0.4s var(--transition-dramatic);
+        }
+        
+        .nav-links a:hover {
+            color: var(--color-gold);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 1px;
+            background: var(--color-gold);
+            transition: all 0.4s var(--transition-smooth);
+            transform-origin: center;
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-inner {
+                padding: 0 1.5rem;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--color-black);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.6s var(--transition-dramatic);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+            }
+        }
+        
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Ken Burns background slideshow */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .hero-bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 2s var(--transition-smooth);
+            overflow: hidden;
+        }
+        
+        .hero-bg-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-bg-slide img {
+            width: 110%;
+            height: 110%;
+            object-fit: cover;
+            filter: brightness(0.35) saturate(0.8);
+            animation: kenBurns 20s ease-in-out infinite alternate;
+        }
+        
+        @keyframes kenBurns {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+            100% {
+                transform: scale(1.1) translate(-2%, -2%);
+            }
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,0.8) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 4rem;
+            max-width: 700px;
+        }
+        
+        .hero-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--color-gold);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s var(--transition-dramatic) 0.5s forwards;
+        }
+        
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-title-line {
+            display: block;
+            overflow: hidden;
+        }
+        
+        .hero-title-line span {
+            display: block;
+            transform: translateY(100%);
+            animation: slideUp 1.2s var(--transition-dramatic) forwards;
+        }
+        
+        .hero-title-line:first-child span {
+            animation-delay: 0.7s;
+        }
+        
+        .hero-title-line:last-child span {
+            color: var(--color-gold);
+            font-style: italic;
+            animation-delay: 0.9s;
+        }
+        
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--color-gray);
+            max-width: 480px;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeInUp 1s var(--transition-dramatic) 1.1s forwards;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s var(--transition-dramatic) 1.3s forwards;
+        }
+        
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.1rem 2.5rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            border: none;
+            cursor: none;
+            overflow: hidden;
+            transition: all 0.4s var(--transition-smooth);
+        }
+        
+        .btn-primary {
+            background: var(--color-gold);
+            color: var(--color-black);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--color-white);
+            transition: left 0.5s var(--transition-dramatic);
+            z-index: 0;
+        }
+        
+        .btn-primary:hover::before {
+            left: 0;
+        }
+        
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-white);
+            border: 1px solid rgba(245, 245, 245, 0.3);
+        }
+        
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-white);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s var(--transition-dramatic);
+            z-index: 0;
+        }
+        
+        .btn-secondary:hover {
+            color: var(--color-black);
+            border-color: var(--color-white);
+        }
+        
+        .btn-secondary:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .btn-secondary span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Coefficient Badge */
+        .coefficient-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: rgba(201, 169, 97, 0.1);
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s var(--transition-dramatic) 1.5s forwards, 
+                       badgePulse 3s ease-in-out infinite 2.5s;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { border-color: rgba(201, 169, 97, 0.3); }
+            50% { border-color: rgba(201, 169, 97, 0.6); }
+        }
+        
+        .coefficient-value {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-gold);
+            line-height: 1;
+        }
+        
+        .coefficient-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .coefficient-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-white);
+        }
+        
+        .coefficient-sub {
+            font-size: 0.6rem;
+            color: var(--color-gray);
+            margin-top: 2px;
+        }
+        
+        /* Hero visual side */
+        .hero-visual {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .hero-artwork {
+            position: relative;
+            width: 70%;
+            max-width: 500px;
+        }
+        
+        .hero-artwork img {
+            width: 100%;
+            height: auto;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeIn 1.5s var(--transition-smooth) 1s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .hero-artwork-info {
+            position: absolute;
+            bottom: -2rem;
+            left: -2rem;
+            background: var(--color-black-light);
+            padding: 1.5rem 2rem;
+            border-left: 3px solid var(--color-gold);
+            opacity: 0;
+            animation: fadeInUp 1s var(--transition-dramatic) 1.5s forwards;
+        }
+        
+        .hero-artwork-title {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            color: var(--color-white);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .hero-artwork-year {
+            font-size: 0.75rem;
+            color: var(--color-gold);
+            letter-spacing: 0.1em;
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeInUp 1s var(--transition-dramatic) 2s forwards;
+        }
+        
+        .scroll-indicator span {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--color-gray);
+        }
+        
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--color-gold), transparent);
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes scrollBounce {
+            0%, 100% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scaleY(0.6);
+                opacity: 0.5;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 8rem 0 4rem;
+            }
+            
+            .hero-content {
+                padding: 0 1.5rem;
+                order: 2;
+            }
+            
+            .hero-cta {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .hero-visual {
+                order: 1;
+                padding: 2rem 1.5rem;
+            }
+            
+            .hero-artwork {
+                width: 60%;
+            }
+            
+            .hero-artwork-info {
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: -1.5rem;
+            }
+        }
+        
+        /* ========================================
+           GALLERY SECTION
+           ======================================== */
+        .gallery {
+            padding: var(--section-padding) 0;
+            background: var(--color-black);
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-gray);
+            background: transparent;
+            border: 1px solid rgba(136, 136, 136, 0.3);
+            cursor: none;
+            transition: all 0.4s var(--transition-smooth);
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: var(--color-gold);
+            border-color: var(--color-gold);
+            background: rgba(201, 169, 97, 0.05);
+        }
+        
+        /* Masonry Grid */
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            padding: 0 4rem;
+        }
+        
+        @media (max-width: 1400px) {
+            .masonry-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .masonry-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 1.5rem;
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .masonry-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s var(--transition-smooth), 
+                        transform 0.6s var(--transition-smooth);
+        }
+        
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-item.hidden {
+            display: none;
+        }
+        
+        .gallery-item[data-size="large"] {
+            grid-row: span 2;
+        }
+        
+        .gallery-item-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s var(--transition-smooth);
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+        
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.4) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+        
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-item-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            color: var(--color-white);
+            margin-bottom: 0.5rem;
+            transform: translateY(20px);
+            transition: transform 0.5s var(--transition-dramatic);
+        }
+        
+        .gallery-item:hover .gallery-item-title {
+            transform: translateY(0);
+        }
+        
+        .gallery-item-meta {
+            font-size: 0.75rem;
+            color: var(--color-gold);
+            letter-spacing: 0.1em;
+            transform: translateY(20px);
+            transition: transform 0.5s var(--transition-dramatic) 0.1s;
+        }
+        
+        .gallery-item:hover .gallery-item-meta {
+            transform: translateY(0);
+        }
+        
+        .gallery-item-view {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 80px;
+            height: 80px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-black);
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.5s var(--transition-dramatic);
+        }
+        
+        .gallery-item:hover .gallery-item-view {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        /* ========================================
+           LIGHTBOX
+           ======================================== */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: var(--z-lightbox);
+            background: rgba(10, 10, 10, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s var(--transition-smooth);
+        }
+        
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .lightbox-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            width: 100%;
+            height: 100%;
+            max-width: 1800px;
+        }
+        
+        @media (max-width: 1024px) {
+            .lightbox-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto;
+            }
+        }
+        
+        .lightbox-image-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            overflow: hidden;
+        }
+        
+        .lightbox-image-container {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.3s var(--transition-smooth);
+        }
+        
+        .lightbox-image-container.zoomed {
+            cursor: grab;
+        }
+        
+        .lightbox-image-container.zoomed:active {
+            cursor: grabbing;
+        }
+        
+        .lightbox img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        
+        .lightbox-info {
+            background: var(--color-black-light);
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 1px solid rgba(201, 169, 97, 0.1);
+        }
+        
+        @media (max-width: 1024px) {
+            .lightbox-info {
+                padding: 2rem;
+                border-left: none;
+                border-top: 1px solid rgba(201, 169, 97, 0.1);
+            }
+        }
+        
+        .lightbox-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .lightbox-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+            color: var(--color-gray);
+        }
+        
+        .lightbox-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .lightbox-meta .gold {
+            color: var(--color-gold);
+        }
+        
+        .lightbox-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--color-gold);
+            margin: 2rem 0;
+        }
+        
+        .lightbox-counter {
+            font-size: 0.875rem;
+            color: var(--color-gray);
+        }
+        
+        .lightbox-counter span {
+            color: var(--color-gold);
+            font-weight: 500;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(201, 169, 97, 0.1);
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            color: var(--color-gold);
+            font-size: 1.5rem;
+            cursor: none;
+            transition: all 0.4s var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .lightbox-nav:hover {
+            background: var(--color-gold);
+            color: var(--color-black);
+        }
+        
+        .lightbox-prev {
+            left: 2rem;
+        }
+        
+        .lightbox-next {
+            right: calc(350px + 2rem);
+        }
+        
+        @media (max-width: 1024px) {
+            .lightbox-prev {
+                left: 1rem;
+            }
+            .lightbox-next {
+                right: 1rem;
+            }
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            color: var(--color-gold);
+            font-size: 1.5rem;
+            cursor: none;
+            transition: all 0.4s var(--transition-smooth);
+            z-index: 10;
+        }
+        
+        .lightbox-close:hover {
+            background: var(--color-gold);
+            color: var(--color-black);
+            transform: rotate(90deg);
+        }
+        
+        .lightbox-zoom-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--color-gray);
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .lightbox.active .lightbox-zoom-hint {
+            opacity: 1;
+            animation: fadeOut 1s ease 3s forwards;
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+        
+        /* ========================================
+           ABOUT SECTION
+           ======================================== */
+        .about {
+            padding: var(--section-padding) 0;
+            background: var(--color-black-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 150%;
+            background: radial-gradient(ellipse, rgba(201, 169, 97, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        
+        @media (max-width: 1024px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+        
+        .about-image-wrapper {
+            position: relative;
+        }
+        
+        .about-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-image-frame {
+            position: absolute;
+            inset: 20px;
+            border: 1px solid var(--color-gold);
+            pointer-events: none;
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(201, 169, 97, 0.05);
+            border: 1px solid rgba(201, 169, 97, 0.1);
+        }
+        
+        .stat-number {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-gold);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-gray);
+        }
+        
+        .about-content {
+            position: relative;
+        }
+        
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--color-gray);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-text strong {
+            color: var(--color-white);
+            font-weight: 400;
+        }
+        
+        .about-text .highlight {
+            color: var(--color-gold);
+        }
+        
+        /* ========================================
+           PHILOSOPHY SECTION (A.R.T.E.)
+           ======================================== */
+        .philosophy {
+            padding: var(--section-padding) 0;
+            background: var(--color-black);
+            text-align: center;
+        }
+        
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .philosophy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .philosophy-item {
+            padding: 3rem 2rem;
+            background: var(--color-black-light);
+            border: 1px solid rgba(201, 169, 97, 0.1);
+            transition: all 0.5s var(--transition-smooth);
+        }
+        
+        .philosophy-item:hover {
+            border-color: var(--color-gold);
+            transform: translateY(-10px);
+        }
+        
+        .philosophy-letter {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            font-weight: 400;
+            color: var(--color-gold);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .philosophy-words {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .philosophy-words span {
+            font-size: 0.85rem;
+            color: var(--color-gray);
+            letter-spacing: 0.1em;
+        }
+        
+        /* ========================================
+           CV / EXHIBITIONS SECTION
+           ======================================== */
+        .exhibitions {
+            padding: var(--section-padding) 0;
+            background: var(--color-black-light);
+        }
+        
+        .exhibitions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .exhibitions-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+        
+        .timeline {
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--color-gold), transparent);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s var(--transition-smooth);
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 0.5rem;
+            width: 9px;
+            height: 9px;
+            background: var(--color-gold);
+            border-radius: 50%;
+        }
+        
+        .timeline-year {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-title {
+            font-size: 1rem;
+            color: var(--color-white);
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-location {
+            font-size: 0.85rem;
+            color: var(--color-gray);
+        }
+        
+        /* Critics badges */
+        .critics-section {
+            margin-top: 4rem;
+        }
+        
+        .critics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .critics-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .critics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .critic-badge {
+            padding: 1rem;
+            background: rgba(201, 169, 97, 0.05);
+            border: 1px solid rgba(201, 169, 97, 0.15);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--color-gray);
+            transition: all 0.3s var(--transition-smooth);
+        }
+        
+        .critic-badge:hover {
+            border-color: var(--color-gold);
+            color: var(--color-white);
+        }
+        
+        /* Quote carousel */
+        .quotes-carousel {
+            position: relative;
+            padding: 3rem;
+            background: var(--color-black);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            margin-top: 3rem;
+        }
+        
+        .quote-slide {
+            text-align: center;
+            opacity: 0;
+            position: absolute;
+            inset: 3rem;
+            transition: opacity 0.8s var(--transition-smooth);
+        }
+        
+        .quote-slide.active {
+            opacity: 1;
+            position: relative;
+            inset: 0;
+        }
+        
+        .quote-text {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--color-white);
+            margin-bottom: 1.5rem;
+        }
+        
+        .quote-author {
+            font-size: 0.9rem;
+            color: var(--color-gold);
+        }
+        
+        .quotes-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .quotes-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-gray-dark);
+            cursor: none;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        
+        .quotes-dot.active {
+            background: var(--color-gold);
+            transform: scale(1.3);
+        }
+        
+        /* ========================================
+           CONTACT SECTION
+           ======================================== */
+        .contact {
+            padding: var(--section-padding) 0;
+            background: var(--color-black);
+            position: relative;
+        }
+        
+        .contact::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 6rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+        
+        .contact-info h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin: 2rem 0 1rem;
+        }
+        
+        .contact-info p {
+            color: var(--color-gray);
+            line-height: 1.8;
+        }
+        
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.25rem 2rem;
+            background: var(--color-black-light);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            color: var(--color-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.4s var(--transition-smooth);
+        }
+        
+        .contact-email:hover {
+            background: var(--color-gold);
+            color: var(--color-black);
+            border-color: var(--color-gold);
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1.25rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--color-gray-dark);
+            color: var(--color-white);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.4s var(--transition-smooth);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-group label {
+            position: absolute;
+            left: 0;
+            top: 1.25rem;
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            pointer-events: none;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--color-gold);
+        }
+        
+        .form-group input:focus + label,
+        .form-group textarea:focus + label,
+        .form-group input:not(:placeholder-shown) + label,
+        .form-group textarea:not(:placeholder-shown) + label {
+            top: -0.75rem;
+            font-size: 0.7rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .form-group select {
+            cursor: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c9a961' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right center;
+        }
+        
+        .form-group select option {
+            background: var(--color-black-light);
+            color: var(--color-white);
+        }
+        
+        .submit-btn {
+            position: relative;
+            padding: 1.25rem 3rem;
+            background: transparent;
+            border: 1px solid var(--color-gold);
+            color: var(--color-gold);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            cursor: none;
+            overflow: hidden;
+            transition: all 0.5s var(--transition-dramatic);
+            align-self: flex-start;
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--color-gold);
+            transition: left 0.5s var(--transition-dramatic);
+            z-index: 0;
+        }
+        
+        .submit-btn:hover::before {
+            left: 0;
+        }
+        
+        .submit-btn:hover {
+            color: var(--color-black);
+        }
+        
+        .submit-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* ========================================
+           FOOTER
+           ======================================== */
+        .footer {
+            padding: 3rem 0;
+            background: var(--color-black);
+            text-align: center;
+        }
+        
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--color-gray);
+            letter-spacing: 0.1em;
+        }
+        
+        .footer-text span {
+            color: var(--color-gold);
+        }
+        
+        /* ========================================
+           PAGE TRANSITION OVERLAY
+           ======================================== */
+        .page-transition {
+            position: fixed;
+            inset: 0;
+            background: var(--color-black);
+            z-index: 9998;
+            transform: translateY(100%);
+            transition: transform 0.8s var(--transition-dramatic);
+        }
+        
+        .page-transition.active {
+            transform: translateY(0);
+        }
+        
+        /* ========================================
+           LOADING SCREEN
+           ======================================== */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--color-black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s var(--transition-smooth), visibility 0.8s;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-text {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--color-gold);
+            margin-bottom: 2rem;
+            letter-spacing: 0.2em;
+        }
+        
+        .loader-line {
+            width: 100px;
+            height: 1px;
+            background: var(--color-gray-dark);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loader-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--color-gold);
+            animation: loaderProgress 2s ease-in-out infinite;
+        }
+        
+        @keyframes loaderProgress {
+            0% { left: -100%; }
+            50% { left: 0; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <span class="loader-text">GISELLA FARININI</span>
+        <div class="loader-line"></div>
+    </div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Page Transition -->
+    <div class="page-transition" id="pageTransition"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo magnetic">
+                <span class="nav-logo-main">Gisella</span>
+                <span class="nav-logo-sub">Farinini</span>
+            </a>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="magnetic">Home</a></li>
+                <li><a href="#gallery" class="magnetic">Opere</a></li>
+                <li><a href="#about" class="magnetic">Biografia</a></li>
+                <li><a href="#philosophy" class="magnetic">Filosofia</a></li>
+                <li><a href="#exhibitions" class="magnetic">Mostre</a></li>
+                <li><a href="#contact" class="magnetic">Contatti</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="hero-bg-slide active">
+                <img src="/images/01-bisbiglii-2024.jpg" alt="">
+            </div>
+            <div class="hero-bg-slide">
+                <img src="/images/06-trascendenza-2023.jpg" alt="">
+            </div>
+            <div class="hero-bg-slide">
+                <img src="/images/17-luce-2016.jpg" alt="">
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <p class="hero-label">Pittrice</p>
+            <h1 class="hero-title">
+                <span class="hero-title-line"><span>Gisella</span></span>
+                <span class="hero-title-line"><span>Farinini</span></span>
+            </h1>
+            <p class="hero-subtitle">
+                Un intreccio di esuberanza, introversione, solitudine, irrequietezza, 
+                serenità, amore per il prossimo e gioia di vivere
+            </p>
+            <div class="hero-cta">
+                <a href="#gallery" class="btn btn-primary magnetic"><span>Esplora le Opere</span></a>
+                <a href="#about" class="btn btn-secondary magnetic"><span>Biografia</span></a>
+            </div>
+            <div class="coefficient-badge">
+                <span class="coefficient-value">5.6</span>
+                <div class="coefficient-text">
+                    <span class="coefficient-label">Coefficiente Artistico</span>
+                    <span class="coefficient-sub">Assegnato dalla Critica d'Arte</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="hero-artwork">
+                <img src="/images/01-bisbiglii-2024.jpg" alt="Bisbiglii tra le rocce">
+                <div class="hero-artwork-info">
+                    <span class="hero-artwork-title">"Bisbiglii tra le rocce"</span>
+                    <span class="hero-artwork-year">2024</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <span>Scorri</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <header class="gallery-header">
+                <p class="section-label reveal-text">Portfolio</p>
+                <h2 class="section-title reveal-text">Dipinti</h2>
+                
+                <div class="gallery-filters">
+                    <button class="filter-btn active" data-filter="all">Tutte</button>
+                    <button class="filter-btn" data-filter="2022-2024">2022-2024</button>
+                    <button class="filter-btn" data-filter="2016-2017">2016-2017</button>
+                    <button class="filter-btn" data-filter="2001-2005">2001-2005</button>
+                    <button class="filter-btn" data-filter="1994-1999">1994-1999</button>
+                </div>
+            </header>
+        </div>
+        
+        <div class="masonry-grid" id="galleryGrid">
+            <!-- Gallery items will be populated by JavaScript -->
+        </div>
+    </section>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#10094;</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">&#10095;</button>
+        
+        <div class="lightbox-content">
+            <div class="lightbox-image-wrapper">
+                <div class="lightbox-image-container" id="lightboxContainer">
+                    <img id="lightboxImg" src="" alt="">
+                </div>
+                <span class="lightbox-zoom-hint">Clicca per zoom • Trascina per muovere</span>
+            </div>
+            <div class="lightbox-info">
+                <h3 class="lightbox-title" id="lightboxTitle"></h3>
+                <div class="lightbox-meta">
+                    <span class="gold" id="lightboxYear"></span>
+                    <span>&#8226;</span>
+                    <span id="lightboxSize"></span>
+                    <span>&#8226;</span>
+                    <span>Olio su tela</span>
+                </div>
+                <div class="lightbox-divider"></div>
+                <p style="color: var(--color-gray); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2rem;">
+                    Opera dell'artista Gisella Farinini, caratterizzata dalla sua peculiare 
+                    interpretazione emotiva del paesaggio e dalla maestria cromatica che 
+                    contraddistingue il suo stile dal 1994.
+                </p>
+                <div class="lightbox-counter">
+                    <span id="lightboxCurrent">1</span> / <span id="lightboxTotal">34</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image-wrapper">
+                    <div class="about-image">
+                        <img src="/images/gisella-farinini.jpg" alt="Gisella Farinini" id="parallaxImage">
+                        <div class="about-image-frame"></div>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="30">0</span>
+                            <span class="stat-label">Anni di Attività</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="34">0</span>
+                            <span class="stat-label">Opere</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="36">0</span>
+                            <span class="stat-label">Critici</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-content">
+                    <p class="section-label reveal-text">L'Artista</p>
+                    <h2 class="section-title reveal-text">Biografia</h2>
+                    
+                    <div class="about-text">
+                        <p class="reveal-text">
+                            Mi chiamo <strong>Gisella</strong> e sin da piccola ho sempre desiderato divertirmi 
+                            con i colori e altri materiali.
+                        </p>
+                        <p class="reveal-text">
+                            Questo sito è una piccola vetrina di alcuni dei miei dipinti che sono 
+                            la <span class="highlight">traduzione del mio essere</span>: un intreccio di esuberanza, 
+                            introversione, solitudine, irrequietezza, serenità, amore per il prossimo 
+                            e gioia di vivere, nonostante le forti asperità della vita.
+                        </p>
+                        <p class="reveal-text">
+                            Dal <span class="highlight">1994</span>, anno della mia prima opera 
+                            "Occhio di Liguria", fino ad o oggi, ho cercato di esprimere attraverso 
+                            la pittura le emozioni, i paesaggi e le sensazioni che la vita mi regala.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Philosophy Section -->
+    <section class="philosophy" id="philosophy">
+        <div class="container">
+            <p class="section-label reveal-text">Concetto</p>
+            <h2 class="section-title reveal-text">Filosofia Artistica</h2>
+            
+            <div class="philosophy-grid">
+                <div class="philosophy-item reveal-text">
+                    <span class="philosophy-letter">A</span>
+                    <div class="philosophy-words">
+                        <span>Amore</span>
+                        <span>Armonia</span>
+                        <span>Arricchimento</span>
+                    </div>
+                </div>
+                <div class="philosophy-item reveal-text">
+                    <span class="philosophy-letter">R</span>
+                    <div class="philosophy-words">
+                        <span>Reminiscenza</span>
+                        <span>Radiosità</span>
+                        <span>Rottura</span>
+                    </div>
+                </div>
+                <div class="philosophy-item reveal-text">
+                    <span class="philosophy-letter">T</span>
+                    <div class="philosophy-words">
+                        <span>Trasposizione</span>
+                        <span>Trasformazione</span>
+                        <span>Trasparenza</span>
+                    </div>
+                </div>
+                <div class="philosophy-item reveal-text">
+                    <span class="philosophy-letter">E</span>
+                    <div class="philosophy-words">
+                        <span>Ecletticità</span>
+                        <span>Entusiasmo</span>
+                        <span>Empatia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Exhibitions Section -->
+    <section class="exhibitions" id="exhibitions">
+        <div class="container">
+            <div class="exhibitions-grid">
+                <div>
+                    <p class="section-label reveal-text">Mostre</p>
+                    <h2 class="section-title reveal-text">Esibizioni Personali</h2>
+                    
+                    <div class="timeline" style="margin-top: 3rem;">
+                        <div class="timeline-item">
+                            <span class="timeline-year">2008</span>
+                            <h4 class="timeline-title">Mostra Personale</h4>
+                            <p class="timeline-location">Sala Consiliare, Sestri Levante (GE)</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-year">2006</span>
+                            <h4 class="timeline-title">Arte Contemporanea</h4>
+                            <p class="timeline-location">Bacino di carenaggio, Sestri Levante (GE)</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-year">2006</span>
+                            <h4 class="timeline-title">Villa Gavotti</h4>
+                            <p class="timeline-location">Albissola Marina (SV)</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-year">2005</span>
+                            <h4 class="timeline-title">Circolo Ufficiali M.M.</h4>
+                            <p class="timeline-location">La Spezia</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-year">2002</span>
+                            <h4 class="timeline-title">Palazzo Frascati</h4>
+                            <p class="timeline-location">Sestri Levante (GE)</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-year">1999</span>
+                            <h4 class="timeline-title">Sala Consiliare</h4>
+                            <p class="timeline-location">Casarza Ligure (GE)</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-year">1997</span>
+                            <h4 class="timeline-title">Sala Consiliare</h4>
+                            <p class="timeline-location">Moneglia (GE)</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-year">1994</span>
+                            <h4 class="timeline-title">Prima Mostra Personale</h4>
+                            <p class="timeline-location">Sestri Levante (GE)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <p class="section-label reveal-text">Riconoscimenti</p>
+                    <h2 class="section-title reveal-text">Critici d'Arte</h2>
+                    
+                    <div class="critics-section">
+                        <div class="critics-grid">
+                            <div class="critic-badge">V. Sgarbi</div>
+                            <div class="critic-badge">P. Levi</div>
+                            <div class="critic-badge">D. Trombadori</div>
+                            <div class="critic-badge">F. Anselmetti</div>
+                            <div class="critic-badge">M. Bernini</div>
+                            <div class="critic-badge">C. Attolini</div>
+                            <div class="critic-badge">G. Beringheli</div>
+                            <div class="critic-badge">L. Caprile</div>
+                            <div class="critic-badge">E. Ferrando</div>
+                            <div class="critic-badge">G. Marton</div>
+                            <div class="critic-badge">A. Mistrangelo</div>
+                            <div class="critic-badge">G. Scorza</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quotes-carousel">
+                        <div class="quote-slide active">
+                            <p class="quote-text">"Un'artista che sa trasformare le emozioni in cromatismi vibranti, creando opere che parlano direttamente all'anima dello spettatore."</p>
+                            <cite class="quote-author">— Paolo Levi</cite>
+                        </div>
+                        <div class="quote-slide">
+                            <p class="quote-text">"La Farinini possiede quella rara capacità di cogliere l'essenza del paesaggio e trasfigurarlo in emozione pura."</p>
+                            <cite class="quote-author">— Vittorio Sgarbi</cite>
+                        </div>
+                        <div class="quote-slide">
+                            <p class="quote-text">"Una pittrice che ha saputo sviluppare un linguaggio personale, fatto di luce e colore, memoria e intuizione."</p>
+                            <cite class="quote-author">— D. Trombadori</cite>
+                        </div>
+                        
+                        <div class="quotes-nav">
+                            <div class="quotes-dot active" data-slide="0"></div>
+                            <div class="quotes-dot" data-slide="1"></div>
+                            <div class="quotes-dot" data-slide="2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <p class="section-label reveal-text">Connettiti</p>
+                    <h2 class="section-title reveal-text">Contatti</h2>
+                    <p class="reveal-text">
+                        Per informazioni sulle opere, mostre o collaborazioni, 
+                        non esitare a contattarmi. Sarò lieta di rispondere alle tue domande.
+                    </p>
+                    
+                    <a href="mailto:gisellafarinini@gmail.com" class="contact-email magnetic">
+                        <span>&#9993;</span>
+                        gisellafarinini@gmail.com
+                    </a>
+                </div>
+                
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/xblgrpry" method="POST">
+                    <div class="form-group reveal-text">
+                        <input type="text" id="name" name="name" placeholder=" " required>
+                        <label for="name">Nome</label>
+                    </div>
+                    <div class="form-group reveal-text">
+                        <input type="email" id="email" name="email" placeholder=" " required>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="form-group reveal-text">
+                        <select id="subject" name="subject" required>
+                            <option value="" disabled selected></option>
+                            <option value="opera">Informazioni su un'opera</option>
+                            <option value="mostra">Proposta di mostra</option>
+                            <option value="collaborazione">Collaborazione</option>
+                            <option value="altro">Altro</option>
+                        </select>
+                        <label for="subject">Oggetto</label>
+                    </div>
+                    <div class="form-group reveal-text">
+                        <textarea id="message" name="message" placeholder=" " required></textarea>
+                        <label for="message">Messaggio</label>
+                    </div>
+                    <button type="submit" class="submit-btn magnetic reveal-text">
+                        <span>Invia Messaggio</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">
+                &copy; 2026 <span>Gisella Farinini</span>. Tutti i diritti riservati.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // ========================================
+        // ARTWORK DATA
+        // ========================================
+        const artworks = [
+            // 2022-2024
+            { file: "01-bisbiglii-2024.jpg", title: "Bisbiglii tra le rocce", year: "2024", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "02-mistero-2024.jpg", title: "Nel cuore del mistero", year: "2024", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "03-meta-2024.jpg", title: "Meta", year: "2024", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "04-sussurro-mare-2024.jpg", title: "Il sussurro del mare", year: "2024", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "05-speranza-nuvole-2024.jpg", title: "La speranza nelle nuvole", year: "2024", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "06-trascendenza-2023.jpg", title: "Trascendenza", year: "2023", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "07-notturno-2022.jpg", title: "Notturno", year: "2022", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "08-strada-infinito-2022.jpg", title: "La strada verso l'infinito", year: "2022", size: "100 x 80 cm", period: "2022-2024" },
+            { file: "09-al-dila-fronde-2022.jpg", title: "Al di là delle fronde", year: "2022", size: "80 x 100 cm", period: "2022-2024" },
+            { file: "10-sognando-2022.jpg", title: "Sognando...", year: "2022", size: "100 x 80 cm", period: "2022-2024" },
+            { file: "11-cuore-bosco-2022.jpg", title: "Nel cuore del bosco", year: "2022", size: "100 x 100 cm", period: "2022-2024" },
+            { file: "12-ventre-roccioso-2022.jpg", title: "Ventre roccioso", year: "2022", size: "100 x 100 cm", period: "2022-2024" },
+            
+            // 2016-2017
+            { file: "13-trasparenze-2017.jpg", title: "Trasparenze", year: "2017", size: "80 x 100 cm", period: "2016-2017" },
+            { file: "14-anfratto-2017.jpg", title: "Anfratto", year: "2017", size: "100 x 80 cm", period: "2016-2017" },
+            { file: "15-tentacoli-erbosi-2016.jpg", title: "Tentacoli erbosi", year: "2016", size: "100 x 100 cm", period: "2016-2017" },
+            { file: "16-giardino-segreti-2016.jpg", title: "Il giardino dei segreti", year: "2016", size: "100 x 100 cm", period: "2016-2017" },
+            { file: "17-luce-2016.jpg", title: "Luce", year: "2016", size: "100 x 100 cm", period: "2016-2017" },
+            { file: "18-riflessi-2016.jpg", title: "Riflessi", year: "2016", size: "100 x 100 cm", period: "2016-2017" },
+            { file: "19-bosco-incantato-2016.jpg", title: "Nel bosco incantato", year: "2016", size: "100 x 80 cm", period: "2016-2017" },
+            { file: "20-cuore-silenzio-2016.jpg", title: "Nel cuore del silenzio", year: "2016", size: "100 x 80 cm", period: "2016-2017" },
+            { file: "21-laiuola-2016.jpg", title: "L'aiuola", year: "2016", size: "100 x 80 cm", period: "2016-2017" },
+            
+            // 2001-2005
+            { file: "22-costeggiando-lago-2005.jpg", title: "Costeggiando il lago", year: "2005", size: "100 x 80 cm", period: "2001-2005" },
+            { file: "23-vaso-2005.jpg", title: "Vaso", year: "2005", size: "100 x 70 cm", period: "2001-2005" },
+            { file: "24-anima-bosco-2005.jpg", title: "L'anima del bosco", year: "2005", size: "40 x 50 cm", period: "2001-2005" },
+            { file: "25-sassi-2003.jpg", title: "Sassi", year: "2003", size: "100 x 100 cm", period: "2001-2005" },
+            { file: "26-grande-spiaggia-2003.jpg", title: "La grande spiaggia", year: "2003", size: "100 x 100 cm", period: "2001-2005" },
+            { file: "27-vigna-2003.jpg", title: "La vigna", year: "2003", size: "80 x 100 cm", period: "2001-2005" },
+            { file: "28-fiori-riva-2003.jpg", title: "I fiori della riva", year: "2003", size: "80 x 100 cm", period: "2001-2005" },
+            { file: "29-primavera-2001.jpg", title: "La mia primavera", year: "2001", size: "80 x 60 cm", period: "2001-2005" },
+            
+            // 1994-1999
+            { file: "30-finestra-amore-1999.jpg", title: "Dalla finestra con amore", year: "1999", size: "50 x 70 cm", period: "1994-1999" },
+            { file: "31-disperazione-1998.jpg", title: "Disperazione", year: "1998", size: "100 x 80 cm", period: "1994-1999" },
+            { file: "32-tettoia-gatti-1998.jpg", title: "Tettoia con gatti", year: "1998", size: "80 x 60 cm", period: "1994-1999" },
+            { file: "33-simboli-1996.jpg", title: "Simboli", year: "1996", size: "50 x 70 cm", period: "1994-1999" },
+            { file: "34-occhio-liguria-1994.jpg", title: "Occhio di Liguria", year: "1994", size: "100 x 80 cm", period: "1994-1999" }
+        ];
+        
+        // ========================================
+        // DOM ELEMENTS
+        // ========================================
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursorDot');
+        const nav = document.getElementById('nav');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const galleryGrid = document.getElementById('galleryGrid');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxYear = document.getElementById('lightboxYear');
+        const lightboxSize = document.getElementById('lightboxSize');
+        const lightboxCurrent = document.getElementById('lightboxCurrent');
+        const lightboxTotal = document.getElementById('lightboxTotal');
+        const loader = document.getElementById('loader');
+        
+        let currentImageIndex = 0;
+        let isZoomed = false;
+        
+        // ========================================
+        // LOADING SCREEN
+        // ========================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1500);
+        });
+        
+        // ========================================
+        // CUSTOM CURSOR
+        // ========================================
+        if (window.matchMedia('(pointer: fine)').matches) {
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+            let dotX = 0, dotY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.1;
+                cursorY += (mouseY - cursorY) * 0.1;
+                dotX += (mouseX - dotX) * 0.3;
+                dotY += (mouseY - dotY) * 0.3;
+                
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                cursorDot.style.left = dotX + 'px';
+                cursorDot.style.top = dotY + 'px';
+                
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+            
+            // Cursor states
+            document.querySelectorAll('a, button, .magnetic').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+        
+        // ========================================
+        // SCROLL PROGRESS & NAV
+        // ========================================
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollTop / docHeight;
+            
+            scrollProgress.style.transform = `scaleX(${scrollPercent})`;
+            
+            if (scrollTop > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // ========================================
+        // MOBILE MENU
+        // ========================================
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // ========================================
+        // HERO SLIDESHOW
+        // ========================================
+        const heroSlides = document.querySelectorAll('.hero-bg-slide');
+        let currentSlide = 0;
+        
+        setInterval(() => {
+            heroSlides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % heroSlides.length;
+            heroSlides[currentSlide].classList.add('active');
+        }, 6000);
+        
+        // ========================================
+        // GALLERY RENDER
+        // ========================================
+        function renderGallery(filter = 'all') {
+            galleryGrid.innerHTML = '';
+            
+            const filtered = filter === 'all' 
+                ? artworks 
+                : artworks.filter(a => a.period === filter);
+            
+            filtered.forEach((artwork, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.dataset.period = artwork.period;
+                item.innerHTML = `
+                    <div class="gallery-item-inner">
+                        <img src="/images/${artwork.file}" alt="${artwork.title}" loading="lazy">
+                        <div class="gallery-item-overlay">
+                            <div class="gallery-item-view">View</div>
+                            <h4 class="gallery-item-title">${artwork.title}</h4>
+                            <div class="gallery-item-meta">${artwork.year} &bull; ${artwork.size}</div>
+                        </div>
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => openLightbox(artwork.file));
+                item.addEventListener('mouseenter', () => cursor.classList.add('view'));
+                item.addEventListener('mouseleave', () => cursor.classList.remove('view'));
+                
+                galleryGrid.appendChild(item);
+                
+                // Stagger animation
+                setTimeout(() => {
+                    item.classList.add('visible');
+                }, index * 50);
+            });
+        }
+        
+        renderGallery();
+        
+        // ========================================
+        // GALLERY FILTERS
+        // ========================================
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderGallery(btn.dataset.filter);
+            });
+        });
+        
+        // ========================================
+        // LIGHTBOX
+        // ========================================
+        function openLightbox(filename) {
+            currentImageIndex = artworks.findIndex(a => a.file === filename);
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            isZoomed = false;
+            document.getElementById('lightboxContainer').classList.remove('zoomed');
+            document.getElementById('lightboxContainer').style.transform = '';
+        }
+        
+        function updateLightbox() {
+            const artwork = artworks[currentImageIndex];
+            lightboxImg.src = `/images/${artwork.file}`;
+            lightboxTitle.textContent = artwork.title;
+            lightboxYear.textContent = artwork.year;
+            lightboxSize.textContent = artwork.size;
+            lightboxCurrent.textContent = currentImageIndex + 1;
+            lightboxTotal.textContent = artworks.length;
+        }
+        
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % artworks.length;
+            updateLightbox();
+        }
+        
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + artworks.length) % artworks.length;
+            updateLightbox();
+        }
+        
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxNext').addEventListener('click', nextImage);
+        document.getElementById('lightboxPrev').addEventListener('click', prevImage);
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+        
+        // Swipe support
+        let touchStartX = 0;
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        lightbox.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                diff > 0 ? nextImage() : prevImage();
+            }
+        });
+        
+        // ========================================
+        // TEXT REVEAL ON SCROLL
+        // ========================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate counters
+                    if (entry.target.classList.contains('stat-number')) {
+                        animateCounter(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal-text, .timeline-item, .gallery-item, .stat-number').forEach(el => {
+            revealObserver.observe(el);
+        });
+        
+        // ========================================
+        // COUNTER ANIMATION
+        // ========================================
+        function animateCounter(el) {
+            const target = parseInt(el.dataset.count);
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    el.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+        
+        // ========================================
+        // PARALLAX IMAGE
+        // ========================================
+        const parallaxImage = document.getElementById('parallaxImage');
+        if (parallaxImage) {
+            window.addEventListener('scroll', () => {
+                const rect = parallaxImage.getBoundingClientRect();
+                const scrolled = window.scrollY;
+                const rate = scrolled * 0.05;
+                parallaxImage.style.transform = `translateY(${rate}px)`;
+            });
+        }
+        
+        // ========================================
+        // QUOTES CAROUSEL
+        // ========================================
+        const quoteSlides = document.querySelectorAll('.quote-slide');
+        const quoteDots = document.querySelectorAll('.quotes-dot');
+        let currentQuote = 0;
+        
+        function showQuote(index) {
+            quoteSlides.forEach(s => s.classList.remove('active'));
+            quoteDots.forEach(d => d.classList.remove('active'));
+            quoteSlides[index].classList.add('active');
+            quoteDots[index].classList.add('active');
+            currentQuote = index;
+        }
+        
+        quoteDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => showQuote(i));
+        });
+        
+        setInterval(() => {
+            showQuote((currentQuote + 1) % quoteSlides.length);
+        }, 6000);
+        
+        // ========================================
+        // SMOOTH SCROLL
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // ========================================
+        // MAGNETIC BUTTONS
+        // ========================================
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.querySelectorAll('.magnetic').forEach(el => {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    el.style.transform = '';
+                });
+            });
+        }
+        
+        // ========================================
+        // FORM HANDLING
+        // ========================================
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            const btn = contactForm.querySelector('.submit-btn');
+            btn.innerHTML = '<span>Invio in corso...</span>';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+---
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/#galleria", label: "Dipinti" },
+  { href: "/#biografia", label: "Biografia" },
+  { href: "/bibliografia", label: "Bibliografia" },
+  { href: "/mostre-personali", label: "Mostre Personali" },
+  { href: "/mostre-collettive", label: "Mostre Collettive" },
+  { href: "/critici", label: "Critici" },
+  { href: "/#contatti", label: "Contatti" },
+];
+---
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="/" class="logo">
+        <span class="logo-main">Gisella</span>
+        <span class="logo-sub">Farinini</span>
+      </a>
+      
+      <button class="menu-toggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <ul class="nav-list">
+        {navItems.map(item => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navList = document.querySelector('.nav-list');
+  
+  menuToggle?.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navList.classList.toggle('active');
+  });
+
+  // Close menu when a navigation link is clicked
+  const navLinks = document.querySelectorAll('.nav-list a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle.classList.remove('active');
+      navList.classList.remove('active');
+    });
+  });
+</script>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1.5rem 0;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+  }
+  
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+  }
+  
+  .logo-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--color-white);
+    line-height: 1;
+  }
+  
+  .logo-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--color-gold);
+    font-style: italic;
+  }
+  
+  .nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+  }
+  
+  .nav-list a {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-gray);
+    transition: color 0.3s;
+  }
+  
+  .nav-list a:hover {
+    color: var(--color-gold);
+  }
+  
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .menu-toggle span {
+    width: 25px;
+    height: 2px;
+    background: var(--color-gold);
+    transition: all 0.3s;
+  }
+  
+  @media (max-width: 1024px) {
+    .menu-toggle {
+      display: flex;
+    }
+    
+    .nav-list {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      background: var(--color-black);
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    
+    .nav-list.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+</style>

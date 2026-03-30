@@ -1,0 +1,193 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+
+const exhibitions = [
+  { year: "1994", items: [
+    "Policentro Civico – Bogliasco (GE)",
+    "Centro d'arte \"Le Prigioni\" – Genova-Sestri",
+    "Centro d'arte Centro Civico Buranello – Genova-Sampierdarena",
+    "SS. Annunziata del Chiappeto – \"Vita e Speranza\" – Genova",
+    "Hotel des Etrangers – Sanremo (IM)",
+    "Associazione Amici di Albaro – \"Forma e colore\" – Genova"
+  ]},
+  { year: "1995", items: [
+    "Galleria Il Punto – Genova",
+    "Antico Castello – Comune di Rapallo",
+    "Galleria la Telaccia – Torino",
+    "Ordine degli Architetti – \"La Tavolozza di Montale\" – Genova"
+  ]},
+  { year: "1996", items: [
+    "Chiostro di Santa Caterina – Seconda Rassegna d'Arte Ligure – Finalborgo (SV)",
+    "Associazione Italo-Americana – \"Premio Cristoforo Colombo\" – Genova"
+  ]},
+  { year: "1997", items: [
+    "Società Promotrice di Belle Arti – \"6 Artisti alla Promotrice\" – Genova"
+  ]},
+  { year: "1999", items: [
+    "Galleria d'Arte Angelo Galasso – Alba (CN)",
+    "Museo Martini – Biblioteca civica – Vado (SV)"
+  ]},
+  { year: "2000", items: [
+    "Gruppo del vento – \"VI Rassegna\" – Tenuta Presidenziale di San Rossore (PI)",
+    "U.C.A.I. – \"La Fede nell'Arte\" – Genova",
+    "Società Promotrice – \"Il calendario 2000\" – Bogliasco (GE)",
+    "Comune di Arenzano – \"Florart\" – Arenzano (GE)",
+    "Sala Compere di Palazzo San Giorgio – \"Sorella Acqua\" – Genova",
+    "Atelier d'Arte – \"Rassegna di Pittori Contemporanei\" – Piacenza",
+    "Palazzo dei congressi – Salsomaggiore Terme (PR)",
+    "U.C.A.I. – Chiostro del Quadrivium – Genova"
+  ]},
+  { year: "2002", items: [
+    "Galleria IX Colonne – \"Esplosioni Cromatiche\" – Bologna",
+    "Art Point Black – Banca Popolare di Milano – Roma",
+    "Galleria Logos – Roma"
+  ]},
+  { year: "2003", items: [
+    "Galleria d'Arte Studio C – \"Pittura di paesaggio\" – Piacenza",
+    "Palagio di Parte Guelfa – Firenze",
+    "Galleria Ca' D'Oro – Roma",
+    "Galleria Cassiopea – Roma"
+  ]},
+  { year: "2004", items: ["Galleria \"Il Canovaccio\" – Roma"] },
+  { year: "2005", items: ["Galleria Palazzo Margutta – \"Stili a confronto\" – Roma"] },
+  { year: "2010", items: ["Centro Internazionale OAD – \"I Colori dal Mondo\" – Roma"] },
+  { year: "2011", items: ["Castello di Santa Severa – Santa Severa (RM)"] },
+  { year: "2012", items: [
+    "A.C. Un'Orchidea nel Deserto – \"Tripudio di Colori\" – Cerveteri",
+    "A.C. Un'Orchidea nel Deserto – \"Arti a Confronto\" – Cerveteri"
+  ]},
+  { year: "2013", items: ["Hofficina d'Arte – \"Percorsi dell'Arte\" – Roma"] },
+  { year: "2016", items: [
+    "Civica Galleria D'Arte Moderna – \"Giuseppe Sciortino\" – Monreale (PA)",
+    "Palazzo Fruscione – \"Arte Salerno\" – Salerno",
+    "Palazzo Clerici – Sala Leopoldo Pirelli – Milano",
+    "Milano, Hollywood – Arte States",
+    "New York – Arte States",
+    "Washington – Arte States"
+  ]},
+  { year: "2017", items: [
+    "Teatro dal Verme – \"Premio internazionale arte Milano\" – Milano",
+    "Museo Levi – Prima Biennale d'Arte Internazionale del Mediterraneo – Palermo",
+    "Museo Europeo d'Arte Moderna – Seconda biennale di Barcellona",
+    "Museo Francesco Gonzaga – Biennale Internazionale – Mantova"
+  ]},
+  { year: "2018", items: ["Teatro Biondo – 1° Premio Internazionale Arte Palermo"] },
+  { year: "2019", items: ["Premio Cultura Identità – La Spezia"] },
+  { year: "2021", items: [
+    "Premio Vittorio Sgarbi – Palermo",
+    "Premio d'Arte Internazionale Dante Alighieri – Casale Monferrato – Firenze",
+    "Premio Internazionale Isabella D'Este – Ferrara"
+  ]},
+  { year: "2022", items: ["Von Zeidler Art Gallery – Primo Premio Città di Berlino"] },
+  { year: "2023", items: [
+    "Centro multimediale Mario Cacace – \"Eden Paradiso\" – Anacapri",
+    "Teatro Ariston – Gran premio stampa artistica – Sanremo"
+  ]},
+];
+---
+
+<Layout title="Mostre Collettive | Gisella Farinini">
+  <Header slot="header" />
+  
+  <main class="page-content">
+    <section class="page-header">
+      <div class="container">
+        <p class="section-label">Esibizioni</p>
+        <h1>Mostre Collettive</h1>
+      </div>
+    </section>
+    
+    <section class="exhibitions">
+      <div class="container">
+        {exhibitions.map(entry => (
+          <div class="exhibition-year">
+            <span class="year-badge">{entry.year}</span>
+            <ul class="exhibition-list">
+              {entry.items.map(item => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 12rem 0 4rem;
+    text-align: center;
+    background: linear-gradient(180deg, var(--color-black-light) 0%, var(--color-black) 100%);
+  }
+  
+  .section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+  
+  .page-header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+  
+  .exhibitions {
+    padding: 6rem 0;
+    background: var(--color-black);
+  }
+  
+  .exhibition-year {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+  }
+  
+  .exhibition-year:last-child {
+    border-bottom: none;
+  }
+  
+  .year-badge {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-gold);
+    font-family: 'Cormorant Garamond', serif;
+  }
+  
+  .exhibition-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .exhibition-list li {
+    font-size: 1rem;
+    color: var(--color-gray);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  
+  .exhibition-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-gold);
+  }
+  
+  @media (max-width: 768px) {
+    .exhibitions {
+      padding: 4rem 0;
+    }
+    
+    .exhibition-year {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

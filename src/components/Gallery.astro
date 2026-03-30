@@ -1,0 +1,701 @@
+---
+const paintings = [
+  { file: "01-bisbiglii-2024.jpg", title: "Bisbiglii tra le rocce", year: "2024", size: "100 x 100 cm" },
+  { file: "02-mistero-2024.jpg", title: "Nel cuore del mistero", year: "2024", size: "100 x 100 cm" },
+  { file: "03-meta-2024.jpg", title: "Meta", year: "2024", size: "100 x 100 cm" },
+  { file: "04-sussurro-mare-2024.jpg", title: "Il sussurro del mare", year: "2024", size: "100 x 100 cm" },
+  { file: "05-speranza-nuvole-2024.jpg", title: "La speranza nelle nuvole", year: "2024", size: "100 x 100 cm" },
+  { file: "06-trascendenza-2023.jpg", title: "Trascendenza", year: "2023", size: "100 x 100 cm" },
+  { file: "07-notturno-2022.jpg", title: "Notturno", year: "2022", size: "100 x 100 cm" },
+  { file: "08-strada-infinito-2022.jpg", title: "La strada verso l'infinito", year: "2022", size: "100 x 80 cm" },
+  { file: "09-al-dila-fronde-2022.jpg", title: "Al di là delle fronde", year: "2022", size: "80 x 100 cm" },
+  { file: "10-sognando-2022.jpg", title: "Sognando...", year: "2022", size: "100 x 80 cm" },
+  { file: "11-cuore-bosco-2022.jpg", title: "Nel cuore del bosco", year: "2022", size: "100 x 100 cm" },
+  { file: "12-ventre-roccioso-2022.jpg", title: "Ventre roccioso", year: "2022", size: "100 x 100 cm" },
+  { file: "13-trasparenze-2017.jpg", title: "Trasparenze", year: "2017", size: "80 x 100 cm" },
+  { file: "14-anfratto-2017.jpg", title: "Anfratto", year: "2017", size: "100 x 80 cm" },
+  { file: "15-tentacoli-erbosi-2016.jpg", title: "Tentacoli erbosi", year: "2016", size: "100 x 100 cm" },
+  { file: "16-giardino-segreti-2016.jpg", title: "Il giardino dei segreti", year: "2016", size: "100 x 100 cm" },
+  { file: "17-luce-2016.jpg", title: "Luce", year: "2016", size: "100 x 100 cm" },
+  { file: "18-riflessi-2016.jpg", title: "Riflessi", year: "2016", size: "100 x 100 cm" },
+  { file: "19-bosco-incantato-2016.jpg", title: "Nel bosco incantato", year: "2016", size: "100 x 80 cm" },
+  { file: "20-cuore-silenzio-2016.jpg", title: "Nel cuore del silenzio", year: "2016", size: "100 x 80 cm" },
+  { file: "21-laiuola-2016.jpg", title: "L'aiuola", year: "2016", size: "100 x 80 cm" },
+  { file: "22-costeggiando-lago-2005.jpg", title: "Costeggiando il lago", year: "2005", size: "100 x 80 cm" },
+  { file: "23-vaso-2005.jpg", title: "Vaso", year: "2005", size: "100 x 70 cm" },
+  { file: "24-anima-bosco-2005.jpg", title: "L'anima del bosco", year: "2005", size: "40 x 50 cm" },
+  { file: "25-sassi-2003.jpg", title: "Sassi", year: "2003", size: "100 x 100 cm" },
+  { file: "26-grande-spiaggia-2003.jpg", title: "La grande spiaggia", year: "2003", size: "100 x 100 cm" },
+  { file: "27-vigna-2003.jpg", title: "La vigna", year: "2003", size: "80 x 100 cm" },
+  { file: "28-fiori-riva-2003.jpg", title: "I fiori della riva", year: "2003", size: "80 x 100 cm" },
+  { file: "29-primavera-2001.jpg", title: "La mia primavera", year: "2001", size: "80 x 60 cm" },
+  { file: "30-finestra-amore-1999.jpg", title: "Dalla finestra con amore", year: "1999", size: "50 x 70 cm" },
+  { file: "31-disperazione-1998.jpg", title: "Disperazione", year: "1998", size: "100 x 80 cm" },
+  { file: "32-tettoia-gatti-1998.jpg", title: "Tettoia con gatti", year: "1998", size: "80 x 60 cm" },
+  { file: "33-simboli-1996.jpg", title: "Simboli", year: "1996", size: "50 x 70 cm" },
+  { file: "34-occhio-liguria-1994.jpg", title: "Occhio di Liguria", year: "1994", size: "100 x 80 cm" },
+];
+
+// Raggruppa per periodo
+const periods = {
+  "2022-2024": paintings.filter(p => parseInt(p.year) >= 2022),
+  "2016-2017": paintings.filter(p => p.year === "2016" || p.year === "2017"),
+  "2001-2005": paintings.filter(p => parseInt(p.year) >= 2001 && parseInt(p.year) <= 2005),
+  "1994-1999": paintings.filter(p => parseInt(p.year) <= 1999),
+};
+---
+
+<section id="galleria" class="gallery">
+  <div class="container">
+    
+    <header class="gallery-header">
+      <p class="section-label">Portfolio</p>
+      <h2 class="section-title">Dipinti</h2>
+      <p class="section-subtitle">
+        Una selezione di opere dal 1994 al 2024, <br>
+        olio su tela
+      </p>
+      
+      <!-- Coefficiente Artistico -->
+      <div class="coefficient-badge">
+        <div class="coefficient-value">5.6</div>
+        <div class="coefficient-label">
+          <span>Coefficiente Artistico</span>
+          <span class="coefficient-sub">Assegnato dalla Critica d'Arte</span>
+        </div>
+      </div>
+    </header>
+    
+    {Object.entries(periods).map(([period, works]) => (
+      <div class="period-section">
+        <h3 class="period-title">{period}</h3>
+        <div class="gallery-grid">
+          {works.map((painting) => (
+            <article class="gallery-item" data-file={painting.file} data-title={painting.title} data-year={painting.year} data-size={painting.size}>
+              <figure class="artwork-card">
+                <div class="artwork-image" onclick={`openLightbox('${painting.file}', '${painting.title}', '${painting.year}', '${painting.size}')`}>
+                  <img 
+                    src={`/images/${painting.file}`} 
+                    alt={painting.title}
+                    loading="lazy"
+                  />
+                  <div class="artwork-overlay">
+                    <span class="view-btn">Vedi dettagli</span>
+                  </div>
+                </div>
+                <figcaption class="artwork-details">
+                  <h4 class="artwork-title">{painting.title}</h4>
+                  <div class="artwork-meta">
+                    <span class="year">{painting.year}</span>
+                    <span class="dot">•</span>
+                    <span class="size">{painting.size}</span>
+                  </div>
+                </figcaption>
+              </figure>
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox" onclick="closeLightboxOnBackdrop(event)">
+  <div class="lightbox-backdrop"></div>
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Chiudi">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="prevImage()" aria-label="Precedente">&#10094;</button>
+  <button class="lightbox-nav lightbox-next" onclick="nextImage()" aria-label="Successivo">&#10095;</button>
+  
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <div class="lightbox-image-wrapper">
+      <div class="lightbox-image-container" id="lightbox-container">
+        <img id="lightbox-img" src="" alt="" />
+      </div>
+    </div>
+    <div class="lightbox-info">
+      <h3 id="lightbox-title"></h3>
+      <div class="lightbox-meta">
+        <span id="lightbox-year"></span>
+        <span>•</span>
+        <span id="lightbox-size"></span>
+        <span>•</span>
+        <span>Olio su tela</span>
+      </div>
+      <div class="lightbox-counter">
+        <span id="lightbox-current">1</span> / <span id="lightbox-total">34</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ paintings: JSON.stringify(paintings) }}>
+  (function() {
+    const paintingsData = JSON.parse(paintings);
+    let currentIndex = 0;
+    
+    function getIndexByFile(filename) {
+      return paintingsData.findIndex(p => p.file === filename);
+    }
+    
+    function updateLightbox(direction = 0) {
+      const painting = paintingsData[currentIndex];
+      const img = document.getElementById('lightbox-img');
+      const container = document.getElementById('lightbox-container');
+      
+      // Apply slide animation
+      if (direction !== 0) {
+        container.classList.add(direction > 0 ? 'slide-out-left' : 'slide-out-right');
+        
+        setTimeout(() => {
+          img.src = '/images/' + painting.file;
+          img.alt = painting.title;
+          document.getElementById('lightbox-title').textContent = painting.title;
+          document.getElementById('lightbox-year').textContent = painting.year;
+          document.getElementById('lightbox-size').textContent = painting.size;
+          document.getElementById('lightbox-current').textContent = currentIndex + 1;
+          document.getElementById('lightbox-total').textContent = paintingsData.length;
+          
+          container.classList.remove('slide-out-left', 'slide-out-right');
+          container.classList.add(direction > 0 ? 'slide-in-right' : 'slide-in-left');
+          
+          setTimeout(() => {
+            container.classList.remove('slide-in-right', 'slide-in-left');
+          }, 300);
+        }, 200);
+      } else {
+        // Initial load - no animation
+        img.src = '/images/' + painting.file;
+        img.alt = painting.title;
+        document.getElementById('lightbox-title').textContent = painting.title;
+        document.getElementById('lightbox-year').textContent = painting.year;
+        document.getElementById('lightbox-size').textContent = painting.size;
+        document.getElementById('lightbox-current').textContent = currentIndex + 1;
+        document.getElementById('lightbox-total').textContent = paintingsData.length;
+      }
+    }
+    
+    // Expose functions globally for onclick handlers
+    window.openLightbox = function(file, title, year, size) {
+      currentIndex = getIndexByFile(file);
+      updateLightbox(0);
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+    
+    window.closeLightbox = function() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    };
+    
+    window.closeLightboxOnBackdrop = function(event) {
+      if (event.target.classList.contains('lightbox') || event.target.classList.contains('lightbox-backdrop')) {
+        window.closeLightbox();
+      }
+    };
+    
+    window.nextImage = function() {
+      currentIndex = (currentIndex + 1) % paintingsData.length;
+      updateLightbox(1);
+    };
+    
+    window.prevImage = function() {
+      currentIndex = (currentIndex - 1 + paintingsData.length) % paintingsData.length;
+      updateLightbox(-1);
+    };
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      const lightbox = document.getElementById('lightbox');
+      if (!lightbox || !lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') window.closeLightbox();
+      if (e.key === 'ArrowRight') window.nextImage();
+      if (e.key === 'ArrowLeft') window.prevImage();
+    });
+    
+    // Touch/Swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const swipeThreshold = 50; // Minimum distance for swipe
+    
+    const lightboxContent = document.querySelector('.lightbox-content');
+    
+    if (lightboxContent) {
+      lightboxContent.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+      
+      lightboxContent.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+      }, { passive: true });
+    }
+    
+    function handleSwipe() {
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+      const lightbox = document.getElementById('lightbox');
+      
+      // Only process horizontal swipes (ignore vertical scrolling)
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold && lightbox && lightbox.classList.contains('active')) {
+        if (deltaX < 0) {
+          // Swipe left → next image
+          window.nextImage();
+        } else {
+          // Swipe right → previous image
+          window.prevImage();
+        }
+      }
+    }
+    
+    // Add visual hint for swipe on mobile
+    const style = document.createElement('style');
+    style.textContent = `
+      @media (max-width: 768px) {
+        .lightbox-content::before,
+        .lightbox-content::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          width: 40px;
+          height: 40px;
+          background: rgba(201, 169, 97, 0.3);
+          border-radius: 50%;
+          transform: translateY(-50%);
+          opacity: 0;
+          transition: opacity 0.3s;
+          pointer-events: none;
+        }
+        .lightbox-content::before {
+          left: 10px;
+        }
+        .lightbox-content::after {
+          right: 10px;
+        }
+        .lightbox.active .lightbox-content::before,
+        .lightbox.active .lightbox-content::after {
+          opacity: 0.5;
+          animation: swipeHint 2s ease-in-out 3;
+        }
+        @keyframes swipeHint {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.7; }
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  })();
+</script>
+
+<style>
+  .gallery {
+    padding: 8rem 0;
+    background: var(--color-black);
+  }
+  
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 6rem;
+  }
+  
+  .section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+  
+  .section-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--color-gray);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  
+  /* Coefficiente Artistico Badge */
+  .coefficient-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, rgba(201, 169, 97, 0.15) 0%, rgba(201, 169, 97, 0.05) 100%);
+    border: 1px solid rgba(201, 169, 97, 0.4);
+    border-left: 4px solid var(--color-gold);
+    padding: 1.5rem 2rem;
+    margin: 0 auto 2.5rem;
+    max-width: fit-content;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .coefficient-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(201, 169, 97, 0.1) 50%, transparent 100%);
+    animation: shimmer 3s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  .coefficient-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: var(--color-gold);
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .coefficient-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+  }
+  
+  .coefficient-label span:first-child {
+    font-size: 1rem;
+    color: var(--color-white);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  
+  .coefficient-sub {
+    font-size: 0.8rem;
+    color: var(--color-gray);
+    font-style: italic;
+  }
+  
+  .period-section {
+    margin-bottom: 6rem;
+  }
+  
+  .period-title {
+    font-size: 1.5rem;
+    color: var(--color-gold);
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(201, 169, 97, 0.3);
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2.5rem;
+  }
+  
+  .gallery-item {
+    break-inside: avoid;
+  }
+  
+  .artwork-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .artwork-image {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--color-black-light);
+  }
+  
+  .artwork-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  
+  .artwork-card:hover .artwork-image img {
+    transform: scale(1.05);
+  }
+  
+  .artwork-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  .artwork-card:hover .artwork-overlay {
+    opacity: 1;
+  }
+  
+  .view-btn {
+    background: transparent;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 0.875rem 2rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-family: 'Montserrat', sans-serif;
+    pointer-events: none;
+  }
+  
+  .artwork-details {
+    padding: 1.5rem 0;
+  }
+  
+  .artwork-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+  
+  .artwork-meta {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .year {
+    color: var(--color-gold);
+  }
+  
+  .dot {
+    opacity: 0.5;
+  }
+  
+  /* Lightbox Styles */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .lightbox.active {
+    display: flex;
+  }
+  
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+  }
+  
+  .lightbox-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s;
+    line-height: 1;
+  }
+  
+  .lightbox-close:hover {
+    color: var(--color-gold);
+  }
+  
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(201, 169, 97, 0.2);
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .lightbox-nav:hover {
+    background: var(--color-gold);
+    color: var(--color-black);
+  }
+  
+  .lightbox-prev {
+    left: 2rem;
+  }
+  
+  .lightbox-next {
+    right: 2rem;
+  }
+  
+  .lightbox-content {
+    position: relative;
+    z-index: 5;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .lightbox-image-wrapper {
+    overflow: hidden;
+    max-height: 70vh;
+  }
+  
+  .lightbox-image-container {
+    max-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  /* Slide animations */
+  .lightbox-image-container.slide-out-left {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  
+  .lightbox-image-container.slide-out-right {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  
+  .lightbox-image-container.slide-in-left {
+    animation: slideInLeft 0.3s ease forwards;
+  }
+  
+  .lightbox-image-container.slide-in-right {
+    animation: slideInRight 0.3s ease forwards;
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .lightbox-image-container img {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  
+  .lightbox-info {
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--color-white);
+  }
+  
+  .lightbox-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-gold);
+  }
+  
+  .lightbox-meta {
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .lightbox-counter {
+    font-size: 0.8rem;
+    color: var(--color-gold);
+    letter-spacing: 0.1em;
+  }
+  
+  @media (max-width: 768px) {
+    .gallery {
+      padding: 4rem 0;
+    }
+    
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .coefficient-badge {
+      padding: 1rem 1.25rem;
+      gap: 1rem;
+      margin: 0 auto 2rem;
+    }
+    
+    .coefficient-value {
+      font-size: 2.5rem;
+    }
+    
+    .coefficient-label span:first-child {
+      font-size: 0.85rem;
+    }
+    
+    .lightbox-nav {
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+    }
+    
+    .lightbox-prev {
+      left: 1rem;
+    }
+    
+    .lightbox-next {
+      right: 1rem;
+    }
+    
+    .lightbox-close {
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+    }
+  }
+</style>

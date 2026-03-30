@@ -1,0 +1,155 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+
+const critics = [
+  "D. Ameri", "F. Anselmetti", "C. Attolini", "F. Ballero", "E. Baliani",
+  "M. Barrai", "G. Beringheli", "M. Bernini", "Y. Brunello", "L. Caprile",
+  "L. Carini", "D. Colombo", "I. Croce", "M. dei Ferrari", "C. Dell'Arco Talarico",
+  "E. Ferrando", "D. Ferrarazzo", "M. Galasso", "E. Gavazzi", "C. Gramaglia",
+  "P. Levi", "G. Marton", "E. Meoli", "M. Micozzi", "A. Mistrangelo",
+  "S. Motti", "G. Pomella", "G.B. Rabuffi", "A. Raimondi", "P. Rizzi",
+  "G. Scorza", "G. Segato", "S. Serradifalco", "V. Sgarbi", "L. Vincenzi",
+  "D. Trombadori"
+];
+---
+
+<Layout title="Critici | Gisella Farinini">
+  <Header slot="header" />
+  
+  <main class="page-content">
+    <section class="page-header">
+      <div class="container">
+        <p class="section-label">Riconoscimenti</p>
+        <h1>Critici</h1>
+        <p class="subtitle">Critici d'arte che hanno seguito e recensito il lavoro di Gisella Farinini</p>
+      </div>
+    </section>
+    
+    <section class="critics">
+      <div class="container">
+        <div class="critics-grid">
+          {critics.map(critic => (
+            <div class="critic-card">
+              <span class="critic-name">{critic}</span>
+            </div>
+          ))}
+        </div>
+        
+        <div class="quote-section">
+          <blockquote>
+            <p>"Un'artista che sa trasformare le emozioni in cromatismi vibranti, 
+            creando opere che parlano direttamente all'anima dello spettatore."</p>
+            <cite>— Paolo Levi</cite>
+          </blockquote>
+        </div>
+        
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 12rem 0 4rem;
+    text-align: center;
+    background: linear-gradient(180deg, var(--color-black-light) 0%, var(--color-black) 100%);
+  }
+  
+  .section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+  
+  .page-header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--color-gray);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .critics {
+    padding: 6rem 0;
+    background: var(--color-black);
+  }
+  
+  .critics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 6rem;
+  }
+  
+  .critic-card {
+    background: var(--color-black-light);
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(201, 169, 97, 0.2);
+    transition: all 0.3s;
+  }
+  
+  .critic-card:hover {
+    border-color: var(--color-gold);
+    transform: translateY(-3px);
+  }
+  
+  .critic-name {
+    font-size: 0.95rem;
+    color: var(--color-white);
+  }
+  
+  .quote-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem;
+    background: var(--color-black-light);
+    border-left: 4px solid var(--color-gold);
+  }
+  
+  .quote-section blockquote {
+    margin: 0;
+  }
+  
+  .quote-section p {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--color-white);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  
+  .quote-section cite {
+    font-size: 1rem;
+    color: var(--color-gold);
+    font-style: normal;
+  }
+  
+  @media (max-width: 968px) {
+    .critics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .critics-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .quote-section {
+      padding: 2rem;
+    }
+    
+    .quote-section p {
+      font-size: 1.25rem;
+    }
+  }
+</style>
